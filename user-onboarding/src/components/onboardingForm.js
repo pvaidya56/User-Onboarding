@@ -3,7 +3,7 @@ import { Form, Field, withFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 
- const OnboardingForm = () => {
+ const OnboardingForm = ({errors, touched}) => {
   return (
     <div className="onboarding-form">
       <Form>
@@ -14,12 +14,14 @@ import axios from 'axios'
             name="name"
             placeholder="Name"
           />
+          {touched.name && errors.name && <p className="error">{errors.name}</p>}
           <Field 
             component="input"
             type="text"
             name="email"
             placeholder="Email"
           />
+          {touched.email && errors.email && <p className="error">{errors.email}</p>}
           <Field 
             component="input"
             type="text"
@@ -31,6 +33,7 @@ import axios from 'axios'
               type="checkbox"
               name="tos"
             />
+            {touched.tos && errors.tos && <p className="error">{errors.tos}</p>}
             <span className="checkmark" />
           </label>
           <button>Submit!</button>
@@ -48,7 +51,13 @@ import axios from 'axios'
       password: password || "",
       tos: tos || false
     }
-  }
+  },
+  validationSchema: Yup.object().shape({
+    name: Yup.string().required('Enter your Name'),
+    email: Yup.string().email(' ').required('Enter your Email'),
+    password: Yup.string().required('Enter your password'),
+    tos: Yup.boolean().required('Agree to proceed')
+  })
 })
 
  const FormikOnboardingForm = formikHOC(OnboardingForm)

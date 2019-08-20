@@ -31,3 +31,8 @@
     transform: rotate(360deg);
   }
 }
+
+p.error {
+  color: black;
+  font-style: italic;
+ }
